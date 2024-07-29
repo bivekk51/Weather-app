@@ -6,7 +6,7 @@ import { FiSunrise, FiSunset } from "react-icons/fi";
 
 const WeatherData = () => {
     const [weatherInfo, setWeatherInfo] = useState(null);
-    const { location } = useParams(); // Get location from URL
+    const { location } = useParams(); 
 
     useEffect(() => {
         const fetchWeather = async () => {
