@@ -4,38 +4,48 @@ import { useParams } from 'react-router-dom';
 import { WiDaySunny, WiCloudy, WiRain, WiSnow, WiThunderstorm } from 'react-icons/wi';
 import { FiSunrise, FiSunset } from "react-icons/fi";
 
-const WeatherData = () => {
+const WeatherData = ({ initialLocation }) => {
     const [weatherInfo, setWeatherInfo] = useState(null);
-    const { location } = useParams(); 
+    const [error, setError] = useState(null);
+    const { location } = useParams();
+    const currentLocation = location || initialLocation;
 
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                const response = await axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?unitGroup=metric&key=U46X9V9CJGBXHWEM6AUG9G3NJ&contentType=json`);
+                const response = await axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${currentLocation}?unitGroup=metric&key=U46X9V9CJGBXHWEM6AUG9G3NJ&contentType=json`);
                 const data = response.data;
-                const weatherInfo = {
-                    city: data.resolvedAddress,
-                    current: {
-                        description: data.currentConditions.conditions,
-                        temperature: data.currentConditions.temp,
-                        humidity: data.currentConditions.humidity,
-                        windSpeed: data.currentConditions.windspeed,
-                        sunrise: data.currentConditions.sunrise,
-                        sunset: data.currentConditions.sunset
-                    },
-                    forecast: data.days.slice(1, 6).map(day => ({
-                        date: day.datetime,
-                        description: day.conditions,
-                        temperature: day.temp,
-                    }))
-                };
-                setWeatherInfo(weatherInfo);
+
+                if (data.address) {
+                    const weatherInfo = {
+                        city: data.resolvedAddress,
+                        current: {
+                            description: data.currentConditions.conditions,
+                            temperature: data.currentConditions.temp,
+                            humidity: data.currentConditions.humidity,
+                            windSpeed: data.currentConditions.windspeed,
+                            sunrise: data.currentConditions.sunrise,
+                            sunset: data.currentConditions.sunset
+                        },
+                        forecast: data.days.slice(1, 6).map(day => ({
+                            date: day.datetime,
+                            description: day.conditions,
+                            temperature: day.temp,
+                        }))
+                    };
+                    setWeatherInfo(weatherInfo);
+                    setError(null); // Clear any previous errors
+                } else {
+                    throw new Error("No data found");
+                }
             } catch (error) {
-                console.error("Error while fetching data", error);
+                setWeatherInfo(null);
+                setError("No data found for the specified location. Please try again.");
             }
         };
+
         fetchWeather();
-    }, [location]);
+    }, [currentLocation]);
 
     const getWeatherIcon = (description) => {
         if (description.includes('Sunny')) return <WiDaySunny className="text-4xl" />;
@@ -48,7 +58,9 @@ const WeatherData = () => {
 
     return (
         <div className="flex flex-col items-center mt-8 p-6 border border-gray-300 rounded-lg shadow-lg max-w-7xl w-full mx-auto bg-white text-gray-800">
-            {weatherInfo ? (
+            {error ? (
+                <p className="text-2xl text-red-600">{error}</p>
+            ) : weatherInfo ? (
                 <>
                     <h2 className="text-4xl font-bold mb-4 text-gray-900">{weatherInfo.city}</h2>
                     <div className="flex flex-col sm:flex-row items-center justify-around mb-6 bg-gradient-to-r from-green-400 to-blue-500 p-4 rounded-lg shadow-md w-full">
@@ -78,7 +90,7 @@ const WeatherData = () => {
                     </div>
                 </>
             ) : (
-                <p className="text-2xl text-white">Loading...</p>
+                <p className="text-2xl text-black">Loading...</p>
             )}
         </div>
     );

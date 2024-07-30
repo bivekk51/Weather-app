@@ -13,7 +13,7 @@ const Search = () => {
     };
 
     return (
-        <form onSubmit={handleSearch} className="flex flex-col items-center mb-6">
+        <form onSubmit={handleSearch} className="flex flex-row gap-8 items-start  mb-2">
             <input
                 type="text"
                 placeholder="Enter location"
@@ -23,7 +23,7 @@ const Search = () => {
             />
             <button
                 type="submit"
-                className="bg-blue-500 text-white p-2 rounded-md"
+                className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-800"
             >
                 Search
             </button>
