@@ -23,7 +23,7 @@ const Search = () => {
             />
             <button
                 type="submit"
-                className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-800"
+                className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-900 "
             >
                 Search
             </button>

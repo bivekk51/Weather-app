@@ -34,13 +34,13 @@ const WeatherData = ({ initialLocation }) => {
                         }))
                     };
                     setWeatherInfo(weatherInfo);
-                    setError(null); // Clear any previous errors
+                    setError(null);
                 } else {
                     throw new Error("No data found");
                 }
             } catch (error) {
                 setWeatherInfo(null);
-                setError("No data found for the specified location. Please try again.");
+                setError("No data found for the specified location. Please enter a valid location or try entering the local body/district for general reference.");
             }
         };
 
