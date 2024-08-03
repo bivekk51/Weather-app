@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import WeatherData from './component/WeatherData';
 import Search from './component/Search';
-
+import Footer from './component/Footer';
 export default function App() {
   return (
     <Router>
@@ -22,7 +22,9 @@ export default function App() {
               </>
             } />
           </Routes>
+          <Footer />
         </div>
+
       </div>
     </Router>
   );

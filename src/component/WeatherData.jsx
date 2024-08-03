@@ -25,7 +25,8 @@ const WeatherData = ({ initialLocation }) => {
                             humidity: data.currentConditions.humidity,
                             windSpeed: data.currentConditions.windspeed,
                             sunrise: data.currentConditions.sunrise,
-                            sunset: data.currentConditions.sunset
+                            sunset: data.currentConditions.sunset,
+                            feelslike: data.currentConditions.feelslike
                         },
                         forecast: data.days.slice(1, 6).map(day => ({
                             date: day.datetime,
@@ -53,11 +54,11 @@ const WeatherData = ({ initialLocation }) => {
         if (description.includes('Rain')) return <WiRain className="text-4xl" />;
         if (description.includes('Snow')) return <WiSnow className="text-4xl" />;
         if (description.includes('Thunderstorm')) return <WiThunderstorm className="text-4xl" />;
-        return <WiDaySunny className="text-4xl" />; // default icon
+        return <WiDaySunny className="text-4xl" />;
     };
 
     return (
-        <div className="flex flex-col items-center mt-8 p-6 border border-gray-300 rounded-lg shadow-lg max-w-7xl w-full mx-auto bg-white text-gray-800">
+        <div className="flex flex-col items-center mt-8 mb-12 p-6 border border-gray-300 rounded-lg shadow-lg max-w-7xl w-full mx-auto bg-white text-gray-800">
             {error ? (
                 <p className="text-2xl text-red-600">{error}</p>
             ) : weatherInfo ? (
@@ -68,6 +69,8 @@ const WeatherData = ({ initialLocation }) => {
                             {getWeatherIcon(weatherInfo.current.description)}
                             <p className="text-xl text-gray-200">{weatherInfo.current.description}</p>
                             <p className="text-3xl text-gray-100">{weatherInfo.current.temperature}°C</p>
+                            <p className="text-lg text-gray-100">Feels like:{weatherInfo.current.feelslike}°C</p>
+
                         </div>
                         <div className="flex flex-col items-center mb-4 sm:mb-0">
                             <p className="text-lg text-gray-300"><FiSunrise className="text-2xl inline text-yellow-500" />Sunrise: {weatherInfo.current.sunrise} am</p>
