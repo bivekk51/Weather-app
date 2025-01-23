@@ -9,11 +9,11 @@ const WeatherData = ({ initialLocation }) => {
     const [error, setError] = useState(null);
     const { location } = useParams();
     const currentLocation = location || initialLocation;
-
+    const API_KEY = import.meta.env.VITE_APP_API_KEY; 
     useEffect(() => {
         const fetchWeather = async () => {
             try {
-                const response = await axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${currentLocation}?unitGroup=metric&key=U46X9V9CJGBXHWEM6AUG9G3NJ&contentType=json`);
+                const response = await axios.get(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${currentLocation}?unitGroup=metric&key=${API_KEY}&contentType=json`);
                 const data = response.data;
 
                 if (data.address) {
