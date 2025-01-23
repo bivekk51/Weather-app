@@ -10,6 +10,7 @@ const WeatherData = ({ initialLocation }) => {
     const { location } = useParams();
     const currentLocation = location || initialLocation;
     const API_KEY = import.meta.env.VITE_APP_API_KEY; 
+    //chaneg
     useEffect(() => {
         const fetchWeather = async () => {
             try {
